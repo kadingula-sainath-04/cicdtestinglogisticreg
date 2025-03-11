@@ -24,11 +24,19 @@ jobs:
         run: |
           pip install -r requirements.txt
 
-      - name: Train model and generate reports
-        run: |
+            - name: Train model and generate reports
+           run: |
           python Logisticregression.py > model_output.txt 2>&1
 
           echo "### Model Performance Report" > report.md
+
+          # If scores.txt exists, append it
+          if [ -f scores.txt ]; then
+            echo "**Model Scores:**" >> report.md
+            cat scores.txt >> report.md
+          else
+            echo "⚠️ scores.txt not found. Check the script output." >> report.md
+          fi
 
           # Extract Accuracy Score
           echo "**Accuracy Score:**" >> report.md
