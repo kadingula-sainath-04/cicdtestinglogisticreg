@@ -25,7 +25,7 @@ jobs:
 
       - name: Train model and generate reports
         run: |
-          python mlcode.py > model_output.txt
+          python Logisticregression.py > model_output.txt
 
           echo "### Model Performance Report" > report.md
           echo "**Accuracy Score:**" >> report.md
