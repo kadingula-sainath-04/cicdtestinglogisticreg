@@ -1,0 +1,46 @@
+name: Model Training CICD
+permissions:
+  id-token: write
+  contents: write
+
+on:
+  push
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Train model and generate reports
+        run: |
+          python mlcode.py > model_output.txt
+
+          echo "### Model Performance Report" > report.md
+          echo "**Accuracy Score:**" >> report.md
+          grep "accuracy_score" model_output.txt >> report.md
+          
+          echo "**Classification Report:**" >> report.md
+          grep -A 5 "classification_report" model_output.txt >> report.md
+
+          echo "**Confusion Matrix:**" >> report.md
+          grep -A 3 "Confusion Matrix" model_output.txt >> report.md
+          
+          echo "**Bias & Variance:**" >> report.md
+          grep "Bias" model_output.txt >> report.md
+          grep "Variance" model_output.txt >> report.md
+         
+      
+     
+          cat report.md report1.md >> combined_file.md
