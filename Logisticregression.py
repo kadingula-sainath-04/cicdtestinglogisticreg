@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Importing the dataset
-dataset = pd.read_csv(r"D:\FULLSTACK DATASCIECE AND AI\Classroomwork\2.LOGISTIC REGRESSION CODE\2.LOGISTIC REGRESSION CODE\logit classification.csv")
+dataset = pd.read_csv("logit classification.csv")
 #this datasset contian information of user and socianl network, those features are - userid,gender,age,salary,purchased
 #social network has several business client which can put their into social networks and one of the client is car company , this company has newly lunched XUV in rediculous price or high price
 #we will see which of the user in this social network are going to buy brand new xuv car
