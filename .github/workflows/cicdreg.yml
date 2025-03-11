@@ -25,22 +25,24 @@ jobs:
 
       - name: Train model and generate reports
         run: |
-          python Logisticregression.py > model_output.txt
+         python Logisticregression.py > model_output.txt 2>&1
 
-          echo "### Model Performance Report" > report.md
-          echo "**Accuracy Score:**" >> report.md
-          grep "accuracy_score" model_output.txt >> report.md
-          
-          echo "**Classification Report:**" >> report.md
-          grep -A 5 "classification_report" model_output.txt >> report.md
+         echo "### Model Performance Report" > report.md
+  
+         # Extract Accuracy Score
+         echo "**Accuracy Score:**" >> report.md
+         grep -E "^[0-9]+\.[0-9]+$" model_output.txt | head -n 1 >> report.md
 
-          echo "**Confusion Matrix:**" >> report.md
-          grep -A 3 "Confusion Matrix" model_output.txt >> report.md
-          
-          echo "**Bias & Variance:**" >> report.md
-          grep "Bias" model_output.txt >> report.md
-          grep "Variance" model_output.txt >> report.md
-         
-      
-     
-          cat report.md report1.md >> combined_file.md
+         # Extract Classification Report
+         echo "**Classification Report:**" >> report.md
+         awk '/precision/,0' model_output.txt >> report.md
+  
+         # Extract Confusion Matrix
+         echo "**Confusion Matrix:**" >> report.md
+         grep -A 2 "^\[\[" model_output.txt >> report.md
+  
+         # Extract Bias & Variance
+         echo "**Bias & Variance:**" >> report.md
+         grep -E "^[0-9]+\.[0-9]+$" model_output.txt | tail -n 2 >> report.md
+
+         cat report.md report1.md >> combined_file.md
