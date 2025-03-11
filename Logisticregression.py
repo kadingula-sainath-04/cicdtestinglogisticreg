@@ -82,6 +82,31 @@ print(bias)
 
 variance = classifier.score(X_test, y_test)
 print(variance)
+from sklearn.metrics import confusion_matrix, accuracy_score, classification_report
+
+# Compute Metrics
+cm = confusion_matrix(y_test, y_pred)
+ac = accuracy_score(y_test, y_pred)
+cr = classification_report(y_test, y_pred)
+bias = classifier.score(X_train, y_train)
+variance = classifier.score(X_test, y_test)
+
+# Print Metrics (for Debugging)
+print("Confusion Matrix:\n", cm)
+print("Accuracy Score:", ac)
+print("Classification Report:\n", cr)
+print("Bias:", bias)
+print("Variance:", variance)
+
+# Save to File
+with open("scores.txt", "w") as f:
+    f.write("Confusion Matrix:\n")
+    f.write(str(cm) + "\n\n")
+    f.write("Accuracy Score: " + str(ac) + "\n\n")
+    f.write("Classification Report:\n" + cr + "\n")
+    f.write("Bias: " + str(bias) + "\n")
+    f.write("Variance: " + str(variance) + "\n")
+
 
 
 
